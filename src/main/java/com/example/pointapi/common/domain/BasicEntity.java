@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @MappedSuperclass
-public class BasicEntity {
+public abstract class BasicEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long num;

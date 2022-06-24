@@ -1,4 +1,4 @@
-package com.example.pointapi.event.review;
+package com.example.pointapi.review;
 
 public enum ReviewAction {
     ADD,
