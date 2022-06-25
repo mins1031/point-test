@@ -7,11 +7,15 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.Table;
 import java.util.UUID;
 
 @Entity
-@Table(name = "user")
+@Table(
+        name = "user_table",
+        indexes = @Index(name = "idx_uuid_key", columnList = "uuidIdentifier")
+)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BasicEntity {

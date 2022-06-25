@@ -1,5 +1,6 @@
-package com.example.pointapi.event.domain;
+package com.example.pointapi.event;
 
+import com.example.pointapi.event.exception.WrongEventTypeException;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -18,6 +19,6 @@ public enum EventType {
         return Arrays.stream(EventType.values())
                 .filter(eventType -> eventType.getDesc().equals(eventDesc))
                 .findAny()
-                .orElse(null);
+                .orElseThrow(WrongEventTypeException::new);
     }
 }
