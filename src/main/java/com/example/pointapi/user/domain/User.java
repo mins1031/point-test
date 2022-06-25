@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import java.util.UUID;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user_table")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BasicEntity {
