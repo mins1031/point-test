@@ -26,7 +26,7 @@ public class Point {
         return new Point(0, new ReviewConditionChecker());
     }
 
-    public void updatePresentPoint(int plusPointCount) {
-        this.presentPoint += plusPointCount;
+    public void updatePresentPoint(int pointCount) {
+        this.presentPoint += pointCount;
     }
 }
