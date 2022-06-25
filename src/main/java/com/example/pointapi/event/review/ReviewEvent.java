@@ -8,6 +8,8 @@ import com.example.pointapi.event.review.exception.NotFoundReviewException;
 import com.example.pointapi.place.domain.Place;
 import com.example.pointapi.place.exception.NotFoundPlaceException;
 import com.example.pointapi.place.repository.PlaceRepository;
+import com.example.pointapi.pointrecord.domain.PointRecord;
+import com.example.pointapi.pointrecord.repository.PointRecordRepository;
 import com.example.pointapi.review.domain.model.Review;
 import com.example.pointapi.review.repository.ReviewRepository;
 import com.example.pointapi.review.reviewphoto.domain.ReviewPhoto;
@@ -39,7 +41,11 @@ public class ReviewEvent implements Event {
     @Autowired
     private ReviewPhotoRepository reviewPhotoRepository;
 
+    @Autowired
+    private PointRecordRepository pointRecordRepository;
+
     public static final int BASE_COUNT_POINT = 1;
+//    public static final String BASE_COUNT_POINT = 1;
 
     @Override
     @Transactional
@@ -51,8 +57,9 @@ public class ReviewEvent implements Event {
         checkReviewerAndRequester(review, user);
 
         if (reviewAction.equals(ReviewAction.ADD)) {
-            int updatePoint = AddPoint(eventOccurRequest, review, place);
-            updateReviewPoint(user, updatePoint);
+            int addResultPoint = AddPoint(eventOccurRequest, review, place, user);
+            PointRecord pointRecord = PointRecord.createPointRecord(addResultPoint, user.getPoint().getPresentPoint(), user);
+            pointRecordRepository.save(pointRecord);
         }
 
         if (reviewAction.equals(ReviewAction.MODIFY)) {
@@ -64,26 +71,32 @@ public class ReviewEvent implements Event {
         }
     }
 
-    private int AddPoint(EventOccurRequest eventOccurRequest, Review review, Place place) {
+    private int AddPoint(EventOccurRequest eventOccurRequest, Review review, Place place, User user) {
         //리뷰 패치조인하는 메서드 queryDsl로 구현할것.
-        int tempUpdatePoint = 0;
+        int tempPointCount = 0;
 
         if (eventOccurRequest.checkExistContent()) {
-            tempUpdatePoint += BASE_COUNT_POINT;
+            user.getPoint().getReviewConditionChecker().changeContentPointState(true);
+            tempPointCount += BASE_COUNT_POINT;
         }
 
         if (eventOccurRequest.checkExistPhotos()) {
-            tempUpdatePoint += verifyReviewPhoto(eventOccurRequest, review);
+            verifyReviewPhoto(eventOccurRequest, review);
+            user.getPoint().getReviewConditionChecker().changePhotoPointState(true);
+            tempPointCount += BASE_COUNT_POINT;
         }
 
         if (reviewRepository.countByPlaceNum(place.getNum()) == 1) {
-            tempUpdatePoint += verifyReviewPlace(review, place);
+            verifyReviewPlace(review, place);
+            user.getPoint().getReviewConditionChecker().changePlacePointState(true);
+            tempPointCount += BASE_COUNT_POINT;
         }
 
-        return tempUpdatePoint;
+        user.getPoint().updatePresentPoint(tempPointCount);
+        return tempPointCount;
     }
 
-    private int verifyReviewPhoto(EventOccurRequest eventOccurRequest, Review review) {
+    private void verifyReviewPhoto(EventOccurRequest eventOccurRequest, Review review) {
         List<String> attachedPhotoIds = eventOccurRequest.getAttachedPhotoIds();
         for (String attachedPhotoId : attachedPhotoIds) {
             if (attachedPhotoId != null) {
@@ -92,12 +105,11 @@ public class ReviewEvent implements Event {
             }
         }
 
-        return BASE_COUNT_POINT;
     }
 
     private int verifyReviewPlace(Review review, Place place) {
         Review reviewByPlace = reviewRepository.findByPlaceNum(place.getNum()).orElseThrow(NotFoundReviewException::new);
-        if (reviewByPlace.getNum() == review.getNum()) {
+        if (reviewByPlace.getNum().equals(review.getNum())) {
             return BASE_COUNT_POINT;
         }
 
@@ -110,11 +122,4 @@ public class ReviewEvent implements Event {
         }
     }
 
-    private void updateReviewPoint(User user, int updatePoint) {
-        if (updatePoint == 0) {
-            return;
-        }
-
-        user.getPoint().updatePresentPoint(updatePoint);
-    }
 }

@@ -8,11 +8,12 @@ import com.example.pointapi.event.dto.EventOccurRequest;
 import com.example.pointapi.event.review.enums.ReviewAction;
 import com.example.pointapi.place.domain.Place;
 import com.example.pointapi.place.repository.PlaceRepository;
+import com.example.pointapi.pointrecord.domain.PointRecord;
+import com.example.pointapi.pointrecord.repository.PointRecordRepository;
 import com.example.pointapi.review.domain.model.Review;
 import com.example.pointapi.review.repository.ReviewRepository;
 import com.example.pointapi.review.reviewphoto.domain.ReviewPhoto;
 import com.example.pointapi.review.reviewphoto.repository.ReviewPhotoRepository;
-import com.example.pointapi.user.domain.Point;
 import com.example.pointapi.user.domain.User;
 import com.example.pointapi.user.repository.UserRepository;
 import org.assertj.core.api.Assertions;
@@ -25,8 +26,6 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("h2")
@@ -46,6 +45,8 @@ class ReviewEventTest {
     @Autowired
     private ReviewPhotoRepository reviewPhotoRepository;
 
+    @Autowired
+    private PointRecordRepository pointRecordRepository;
 
     //각 엑션 동작 테스트, 액션 조건 포인트 적용 테스트, 액션 예외, 공통 예외 테스트,
     @DisplayName("ADD 액션. content, photos, 첫리뷰 모두 적용, 포인트 3점 적립된다")
@@ -75,7 +76,14 @@ class ReviewEventTest {
 
         //then
         User reviewer = userRepository.findById(user.getNum()).get();
+        List<PointRecord> pointRecords = pointRecordRepository.findAll();
+
         Assertions.assertThat(reviewer.getPoint().getPresentPoint()).isEqualTo(3);
+
+        Assertions.assertThat(pointRecords).hasSize(1);
+        Assertions.assertThat(pointRecords.get(0).getUpdatedPoint()).isEqualTo(3);
+        Assertions.assertThat(pointRecords.get(0).getCurrentPointAfterUpdate()).isEqualTo(3);
+
     }
 
 }

@@ -1,11 +1,14 @@
 package com.example.pointapi.pointrecord.domain;
 
 import com.example.pointapi.common.domain.BasicEntity;
+import com.example.pointapi.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import java.util.UUID;
 
 @Entity
@@ -15,20 +18,21 @@ public class PointRecord extends BasicEntity {
 
     private String uuidIdentifier;
 
-    private String pointUpdateReason;
-
-    private int pointUpdateCount;
+    private int updatedPoint;
 
     private int currentPointAfterUpdate;
 
-    private PointRecord(String pointUpdateReason, int pointUpdateCount, int currentPointAfterUpdate) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
+    private PointRecord(int updatedPoint, int currentPointAfterUpdate, User user) {
         this.uuidIdentifier = UUID.randomUUID().toString();
-        this.pointUpdateReason = pointUpdateReason;
-        this.pointUpdateCount = pointUpdateCount;
+        this.updatedPoint = updatedPoint;
         this.currentPointAfterUpdate = currentPointAfterUpdate;
+        this.user = user;
     }
 
-    public static PointRecord createPointRecord(String pointUpdateReason, int pointUpdateCount, int currentPointAfterUpdate) {
-        return new PointRecord(pointUpdateReason, pointUpdateCount, currentPointAfterUpdate);
+    public static PointRecord createPointRecord(int updatedPoint, int currentPointAfterUpdate, User user) {
+        return new PointRecord(updatedPoint, currentPointAfterUpdate, user);
     }
 }
