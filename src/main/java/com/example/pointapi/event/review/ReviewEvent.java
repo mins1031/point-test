@@ -1,5 +1,6 @@
 package com.example.pointapi.event.review;
 
+import com.example.pointapi.common.exception.ImpossibleException;
 import com.example.pointapi.common.exception.WrongRequesterException;
 import com.example.pointapi.event.Event;
 import com.example.pointapi.event.dto.EventOccurRequest;
@@ -44,8 +45,8 @@ public class ReviewEvent implements Event {
     @Autowired
     private PointRecordRepository pointRecordRepository;
 
-    public static final int BASE_COUNT_POINT = 1;
-//    public static final String BASE_COUNT_POINT = 1;
+    public static final int PLUS_COUNT_POINT = 1;
+    public static final int MINUS_COUNT_POINT = -1;
 
     @Override
     @Transactional
@@ -58,17 +59,24 @@ public class ReviewEvent implements Event {
 
         if (reviewAction.equals(ReviewAction.ADD)) {
             int addResultPoint = AddPoint(eventOccurRequest, review, place, user);
-            PointRecord pointRecord = PointRecord.createPointRecord(addResultPoint, user.getPoint().getPresentPoint(), user);
-            pointRecordRepository.save(pointRecord);
+            savePointRecord(user, addResultPoint);
         }
 
+        //todo 포인트 이력을 한꺼번에 할지 포인트 하나당 할지 생각해봐야함. 포인트 하나당 이력 객체를 생성해서 모아서 저장하는 방식도 있다.
         if (reviewAction.equals(ReviewAction.MODIFY)) {
-
+            int contentPoint = modifyPointRelatedContent(eventOccurRequest, user);
+            int photoPoint = modifyPointRelatedPhotos(eventOccurRequest, user);
+            savePointRecord(user, contentPoint + photoPoint);
         }
 
         if (reviewAction.equals(ReviewAction.DELETE)) {
 
         }
+    }
+
+    private void savePointRecord(User user, int addResultPoint) {
+        PointRecord pointRecord = PointRecord.createPointRecord(addResultPoint, user.getPoint().getPresentPoint(), user);
+        pointRecordRepository.save(pointRecord);
     }
 
     private int AddPoint(EventOccurRequest eventOccurRequest, Review review, Place place, User user) {
@@ -77,19 +85,20 @@ public class ReviewEvent implements Event {
 
         if (eventOccurRequest.checkExistContent()) {
             user.getPoint().getReviewConditionChecker().changeContentPointState(true);
-            tempPointCount += BASE_COUNT_POINT;
+            tempPointCount += PLUS_COUNT_POINT;
         }
 
         if (eventOccurRequest.checkExistPhotos()) {
             verifyReviewPhoto(eventOccurRequest, review);
             user.getPoint().getReviewConditionChecker().changePhotoPointState(true);
-            tempPointCount += BASE_COUNT_POINT;
+            tempPointCount += PLUS_COUNT_POINT;
         }
 
+        //todo 이쪽 count 성능이슈 생각해야됨
         if (reviewRepository.countByPlaceNum(place.getNum()) == 1) {
-            verifyReviewPlace(review, place);
+            verifyReviewPlace(review.getNum(), place.getNum());
             user.getPoint().getReviewConditionChecker().changePlacePointState(true);
-            tempPointCount += BASE_COUNT_POINT;
+            tempPointCount += PLUS_COUNT_POINT;
         }
 
         user.getPoint().updatePresentPoint(tempPointCount);
@@ -104,22 +113,57 @@ public class ReviewEvent implements Event {
                 reviewPhoto.verifyReviewer(review.getNum());
             }
         }
-
     }
 
-    private int verifyReviewPlace(Review review, Place place) {
-        Review reviewByPlace = reviewRepository.findByPlaceNum(place.getNum()).orElseThrow(NotFoundReviewException::new);
-        if (reviewByPlace.getNum().equals(review.getNum())) {
-            return BASE_COUNT_POINT;
+    private void verifyReviewPlace(Long reviewNum, Long placeNum) {
+        Review reviewByPlace = reviewRepository.findByPlaceNum(placeNum).orElseThrow(NotFoundReviewException::new);
+        if (!reviewByPlace.getNum().equals(reviewNum)) {
+            throw new ImpossibleException("리뷰정보와 장소리뷰의 정보가 맞지 않습니다.");
         }
-
-        return 0;
     }
 
     private void checkReviewerAndRequester(Review review, User user) {
         if (!review.verifyReviewerAndRequester(user.getNum())) {
             throw new WrongRequesterException("요청된 리뷰의 정보와 유저의 정보가 다릅니다. 잘못된 요청입니다.");
         }
+    }
+
+    private int modifyPointRelatedContent(EventOccurRequest eventOccurRequest, User user) {
+        int tempPointCount = 0;
+        //원래는 내용이 있었는데 삭제됐다.
+        if (user.getPoint().getReviewConditionChecker().isContentPointState() && !eventOccurRequest.checkExistContent()) {
+            user.getPoint().updatePresentPoint(MINUS_COUNT_POINT);
+            user.getPoint().getReviewConditionChecker().changeContentPointState(false);
+            tempPointCount -= 1;
+        }
+
+        //원래는 내용이 없었는데 추가됐다.
+        if (!user.getPoint().getReviewConditionChecker().isContentPointState() && eventOccurRequest.checkExistPhotos()) {
+            user.getPoint().updatePresentPoint(PLUS_COUNT_POINT);
+            user.getPoint().getReviewConditionChecker().changeContentPointState(true);
+            tempPointCount += 1;
+        }
+        
+        return tempPointCount;
+    }
+
+    private int modifyPointRelatedPhotos(EventOccurRequest eventOccurRequest, User user) {
+        int tempPointCount = 0;
+        //원래는 사진이 있었는데 삭제됐다.
+        if (user.getPoint().getReviewConditionChecker().isPhotoPointState() && !eventOccurRequest.checkExistPhotos()) {
+            user.getPoint().updatePresentPoint(MINUS_COUNT_POINT);
+            user.getPoint().getReviewConditionChecker().changePhotoPointState(false);
+            tempPointCount -= 1;
+        }
+
+        //원래는 사진이 없었는데 추가됐다.
+        if (!user.getPoint().getReviewConditionChecker().isPhotoPointState() && eventOccurRequest.checkExistPhotos()) {
+            user.getPoint().updatePresentPoint(PLUS_COUNT_POINT);
+            user.getPoint().getReviewConditionChecker().changePhotoPointState(true);
+            tempPointCount += 1;
+        }
+        
+        return tempPointCount;
     }
 
 }
