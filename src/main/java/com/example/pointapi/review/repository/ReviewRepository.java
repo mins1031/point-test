@@ -8,4 +8,8 @@ import java.util.Optional;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     Optional<Review> findByUuidIdentifier(String uuidIdentifier);
+
+    Optional<Review> findByPlaceNum(Long aLong);
+
+    long countByPlaceNum(Long placeNum);
 }

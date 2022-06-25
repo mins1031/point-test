@@ -21,11 +21,7 @@ public class Point {
         return new Point(presentPoint);
     }
 
-    public void plusPresentPoint(int plusPointCount) {
+    public void updatePresentPoint(int plusPointCount) {
         this.presentPoint += plusPointCount;
-    }
-
-    public void minusPresentPoint(int minusPointCount) {
-        this.presentPoint += minusPointCount;
     }
 }

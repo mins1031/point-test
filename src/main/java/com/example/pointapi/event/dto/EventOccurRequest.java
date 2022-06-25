@@ -21,6 +21,7 @@ public class EventOccurRequest {
     private List<String> attachedPhotoIds;
     @NotBlank
     private String userId;
+    @NotBlank
     private String placeId;
 
     public EventOccurRequest(String eventType, String reviewAction, String reviewId, String content, List<String> attachedPhotoIds, String userId, String placeId) {
@@ -32,4 +33,13 @@ public class EventOccurRequest {
         this.userId = userId;
         this.placeId = placeId;
     }
+
+    public boolean checkExistContent() {
+        return !this.content.isBlank();
+    }
+
+    public boolean checkExistPhotos() {
+        return this.attachedPhotoIds.size() > 0;
+    }
+
 }

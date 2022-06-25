@@ -76,7 +76,6 @@ class ReviewEventTest {
         //then
         User reviewer = userRepository.findById(user.getNum()).get();
         Assertions.assertThat(reviewer.getPoint().getPresentPoint()).isEqualTo(3);
-
     }
 
 }
