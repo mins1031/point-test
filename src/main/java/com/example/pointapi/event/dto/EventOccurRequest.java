@@ -1,6 +1,5 @@
 package com.example.pointapi.event.dto;
 
-import com.example.pointapi.review.ReviewAction;
 import com.sun.istack.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
