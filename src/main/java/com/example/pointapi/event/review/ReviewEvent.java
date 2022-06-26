@@ -143,9 +143,7 @@ public class ReviewEvent implements Event {
 
     private void verifyReviewPlace(Long reviewNum, Long placeNum) {
         Review reviewByPlace = reviewRepository.findByPlaceNum(placeNum).orElseThrow(NotFoundReviewException::new);
-        if (!reviewByPlace.getNum().equals(reviewNum)) {
-            throw new ImpossibleException("리뷰정보와 장소리뷰의 정보가 맞지 않습니다.");
-        }
+        reviewByPlace.verifyReviewer(reviewNum);
     }
 
     private void checkReviewerAndRequester(Review review, User user) {
@@ -160,16 +158,16 @@ public class ReviewEvent implements Event {
         if (user.getReviewConditionChecker().isContentPointState() && !eventOccurRequest.checkExistContent()) {
             user.updatePresentPoint(MINUS_COUNT_POINT);
             user.getReviewConditionChecker().changeContentPointState(false);
-            tempPointCount -= 1;
+            return tempPointCount -= 1;
         }
 
         //원래는 내용이 없었는데 추가됐다.
         if (!user.getReviewConditionChecker().isContentPointState() && eventOccurRequest.checkExistPhotos()) {
             user.updatePresentPoint(PLUS_COUNT_POINT);
             user.getReviewConditionChecker().changeContentPointState(true);
-            tempPointCount += 1;
+            return tempPointCount += 1;
         }
-        
+
         return tempPointCount;
     }
 
