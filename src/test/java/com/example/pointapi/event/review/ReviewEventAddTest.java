@@ -48,7 +48,6 @@ class ReviewEventAddTest {
     @Autowired
     private PointRecordRepository pointRecordRepository;
 
-    //각 엑션 동작 테스트, 액션 조건 포인트 적용 테스트, 액션 예외, 공통 예외 테스트,
     @DisplayName("ADD 액션. content, photos, 첫리뷰 모두 적용, 포인트 3점 적립된다")
     @Test
     void ADD_내용_사진_첫리뷰_포인트적립() {

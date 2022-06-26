@@ -3,6 +3,7 @@ package com.example.pointapi.event.review;
 import com.example.pointapi.common.PlaceHelper;
 import com.example.pointapi.common.ReviewHelper;
 import com.example.pointapi.common.UserHelper;
+import com.example.pointapi.common.pointholder.PointScoreHolder;
 import com.example.pointapi.event.EventType;
 import com.example.pointapi.event.dto.EventOccurRequest;
 import com.example.pointapi.event.review.enums.ReviewAction;
@@ -43,9 +44,6 @@ class ReviewEventDeleteTest {
     private ReviewRepository reviewRepository;
 
     @Autowired
-    private ReviewPhotoRepository reviewPhotoRepository;
-
-    @Autowired
     private PointRecordRepository pointRecordRepository;
 
     @DisplayName("DELETE 액션. 내용, 사진, 첫리뷰 모두 적용된 상태에서 삭제되어 3포인트 감소된다")
@@ -80,7 +78,7 @@ class ReviewEventDeleteTest {
         Assertions.assertThat(reviewer.getPoint().getPresentPoint()).isEqualTo(0);
 
         List<PointRecord> pointRecords = pointRecordRepository.findAll();
-        int resultUpdatePoint = ReviewEvent.MINUS_COUNT_POINT + ReviewEvent.MINUS_COUNT_POINT + ReviewEvent.MINUS_COUNT_POINT;
+        int resultUpdatePoint = PointScoreHolder.MINUS_COUNT_POINT + PointScoreHolder.MINUS_COUNT_POINT + PointScoreHolder.MINUS_COUNT_POINT;
         Assertions.assertThat(pointRecords).hasSize(1);
         Assertions.assertThat(pointRecords.get(0).getUpdatedPoint()).isEqualTo(resultUpdatePoint);
         Assertions.assertThat(pointRecords.get(0).getCurrentPointAfterUpdate()).isEqualTo(0);
@@ -119,7 +117,7 @@ class ReviewEventDeleteTest {
         Assertions.assertThat(reviewer.getPoint().getReviewConditionChecker().isPhotoPointState()).isFalse();
 
         List<PointRecord> pointRecords = pointRecordRepository.findAll();
-        int resultUpdatePoint = ReviewEvent.MINUS_COUNT_POINT + ReviewEvent.MINUS_COUNT_POINT;
+        int resultUpdatePoint = PointScoreHolder.MINUS_COUNT_POINT + PointScoreHolder.MINUS_COUNT_POINT;
         Assertions.assertThat(pointRecords).hasSize(1);
         Assertions.assertThat(pointRecords.get(0).getUpdatedPoint()).isEqualTo(resultUpdatePoint);
         Assertions.assertThat(pointRecords.get(0).getCurrentPointAfterUpdate()).isEqualTo(0);
@@ -158,7 +156,7 @@ class ReviewEventDeleteTest {
         Assertions.assertThat(reviewer.getPoint().getReviewConditionChecker().isPlacePointState()).isFalse();
 
         List<PointRecord> pointRecords = pointRecordRepository.findAll();
-        int resultUpdatePoint = ReviewEvent.MINUS_COUNT_POINT + ReviewEvent.MINUS_COUNT_POINT;
+        int resultUpdatePoint = PointScoreHolder.MINUS_COUNT_POINT + PointScoreHolder.MINUS_COUNT_POINT;
         Assertions.assertThat(pointRecords).hasSize(1);
         Assertions.assertThat(pointRecords.get(0).getUpdatedPoint()).isEqualTo(resultUpdatePoint);
         Assertions.assertThat(pointRecords.get(0).getCurrentPointAfterUpdate()).isEqualTo(0);
@@ -197,7 +195,7 @@ class ReviewEventDeleteTest {
         Assertions.assertThat(reviewer.getPoint().getReviewConditionChecker().isPlacePointState()).isFalse();
 
         List<PointRecord> pointRecords = pointRecordRepository.findAll();
-        int resultUpdatePoint = ReviewEvent.MINUS_COUNT_POINT + ReviewEvent.MINUS_COUNT_POINT;
+        int resultUpdatePoint = PointScoreHolder.MINUS_COUNT_POINT + PointScoreHolder.MINUS_COUNT_POINT;
         Assertions.assertThat(pointRecords).hasSize(1);
         Assertions.assertThat(pointRecords.get(0).getUpdatedPoint()).isEqualTo(resultUpdatePoint);
         Assertions.assertThat(pointRecords.get(0).getCurrentPointAfterUpdate()).isEqualTo(0);
@@ -234,7 +232,7 @@ class ReviewEventDeleteTest {
         Assertions.assertThat(reviewer.getPoint().getReviewConditionChecker().isPhotoPointState()).isFalse();
 
         List<PointRecord> pointRecords = pointRecordRepository.findAll();
-        int resultUpdatePoint = ReviewEvent.MINUS_COUNT_POINT;
+        int resultUpdatePoint = PointScoreHolder.MINUS_COUNT_POINT;
         Assertions.assertThat(pointRecords).hasSize(1);
         Assertions.assertThat(pointRecords.get(0).getUpdatedPoint()).isEqualTo(resultUpdatePoint);
         Assertions.assertThat(pointRecords.get(0).getCurrentPointAfterUpdate()).isEqualTo(0);
@@ -271,7 +269,7 @@ class ReviewEventDeleteTest {
         Assertions.assertThat(reviewer.getPoint().getReviewConditionChecker().isContentPointState()).isFalse();
 
         List<PointRecord> pointRecords = pointRecordRepository.findAll();
-        int resultUpdatePoint = ReviewEvent.MINUS_COUNT_POINT;
+        int resultUpdatePoint = PointScoreHolder.MINUS_COUNT_POINT;
         Assertions.assertThat(pointRecords).hasSize(1);
         Assertions.assertThat(pointRecords.get(0).getUpdatedPoint()).isEqualTo(resultUpdatePoint);
         Assertions.assertThat(pointRecords.get(0).getCurrentPointAfterUpdate()).isEqualTo(0);
@@ -308,7 +306,7 @@ class ReviewEventDeleteTest {
         Assertions.assertThat(reviewer.getPoint().getReviewConditionChecker().isPlacePointState()).isFalse();
 
         List<PointRecord> pointRecords = pointRecordRepository.findAll();
-        int resultUpdatePoint = ReviewEvent.MINUS_COUNT_POINT;
+        int resultUpdatePoint = PointScoreHolder.MINUS_COUNT_POINT;
         Assertions.assertThat(pointRecords).hasSize(1);
         Assertions.assertThat(pointRecords.get(0).getUpdatedPoint()).isEqualTo(resultUpdatePoint);
         Assertions.assertThat(pointRecords.get(0).getCurrentPointAfterUpdate()).isEqualTo(0);
