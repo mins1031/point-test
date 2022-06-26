@@ -35,11 +35,19 @@ public class EventOccurRequest {
     }
 
     public boolean checkExistContent() {
+        if (this.content == null) {
+            return false;
+        }
+
         return !this.content.isBlank();
     }
 
     public boolean checkExistPhotos() {
-        return this.attachedPhotoIds.size() > 0;
+        if (this.attachedPhotoIds == null) {
+            return false;
+        }
+
+        return this.attachedPhotoIds.size() >= 1;
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.pointapi.review.domain.model;
 
 import com.example.pointapi.common.domain.BasicEntity;
+import com.example.pointapi.common.exception.ImpossibleException;
 import com.example.pointapi.place.domain.Place;
 import com.example.pointapi.user.domain.User;
 import lombok.AccessLevel;
@@ -43,5 +44,11 @@ public class Review extends BasicEntity {
 
     public boolean verifyReviewerAndRequester(Long userNum) {
         return user.getNum().equals(userNum);
+    }
+
+    public void verifyReviewer(Long reviewNum) {
+        if (!this.getNum().equals(reviewNum)) {
+            throw new ImpossibleException("리뷰정보와 장소리뷰의 정보가 맞지 않습니다.");
+        }
     }
 }

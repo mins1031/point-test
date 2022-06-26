@@ -38,7 +38,7 @@ public class ReviewPhoto extends BasicEntity {
     }
 
     public void verifyReviewer(Long reviewerNum) {
-        if (this.review.getNum() != reviewerNum) {
+        if (!this.review.getNum().equals(reviewerNum)) {
             throw new WrongRequesterException("요청자와 리뷰 사진의 리뷰어가 상이합니다. 잘못된 요청입니다.");
         }
     }
