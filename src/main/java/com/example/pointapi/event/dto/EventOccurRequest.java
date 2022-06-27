@@ -13,9 +13,9 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class EventOccurRequest {
     @NotNull(message = RequestValidatorMessages.EVENT_TYPE_NULL)
-    private String eventType;
+    private String type;
     @NotNull(message = RequestValidatorMessages.EVENT_REVIEW_ACTION_NULL)
-    private String reviewAction;
+    private String action;
     @NotBlank(message = RequestValidatorMessages.EVENT_REVIEW_ID_BLANK)
     private String reviewId;
     private String content;
@@ -25,9 +25,9 @@ public class EventOccurRequest {
     @NotBlank(message = RequestValidatorMessages.EVENT_PLACE_ID_NULL)
     private String placeId;
 
-    public EventOccurRequest(String eventType, String reviewAction, String reviewId, String content, List<String> attachedPhotoIds, String userId, String placeId) {
-        this.eventType = eventType;
-        this.reviewAction = reviewAction;
+    public EventOccurRequest(String type, String action, String reviewId, String content, List<String> attachedPhotoIds, String userId, String placeId) {
+        this.type = type;
+        this.action = action;
         this.reviewId = reviewId;
         this.content = content;
         this.attachedPhotoIds = attachedPhotoIds;

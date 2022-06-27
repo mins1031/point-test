@@ -19,7 +19,7 @@ public class EventTypeHandler {
     }
 
     public void handleEvent(EventOccurRequest eventOccurRequest) {
-        EventType eventType = EventType.catchEventType(eventOccurRequest.getEventType());
+        EventType eventType = EventType.catchEventType(eventOccurRequest.getType());
         Event event = pointApplyMapper.get(eventType);
         event.handlePoint(eventOccurRequest);
     }

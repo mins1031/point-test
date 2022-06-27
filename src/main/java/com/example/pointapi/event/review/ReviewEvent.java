@@ -38,7 +38,7 @@ public class ReviewEvent implements Event {
     @Override
     @Transactional
     public void handlePoint(EventOccurRequest eventOccurRequest) {
-        ReviewAction requestReviewAction = ReviewAction.catchReviewAction(eventOccurRequest.getReviewAction());
+        ReviewAction requestReviewAction = ReviewAction.catchReviewAction(eventOccurRequest.getAction());
         Review review = reviewRepository.findByUuidIdentifier(eventOccurRequest.getReviewId()).orElseThrow(NotFoundReviewException::new);
         User user = userRepository.findByUuidIdentifier(eventOccurRequest.getUserId()).orElseThrow(NotFoundUserException::new);
         Place place = placeRepository.findByUuidIdentifier(eventOccurRequest.getPlaceId()).orElseThrow(NotFoundPlaceException::new);
