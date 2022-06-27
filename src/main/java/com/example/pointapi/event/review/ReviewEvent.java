@@ -34,6 +34,7 @@ public class ReviewEvent implements Event {
     private final ModActionExecutioner modActionExecutioner;
     private final DeleteActionExecutioner deleteActionExecutioner;
 
+    //리뷰액션은 종류가 3개에서 늘어날것 같지 않다고 생각되어 단순 if 분기로 처리했습니다.
     @Override
     @Transactional
     public void handlePoint(EventOccurRequest eventOccurRequest) {
@@ -48,11 +49,9 @@ public class ReviewEvent implements Event {
             savePointRecord(user, addResultPoint);
         }
 
-        //todo 포인트 이력을 한꺼번에 할지 포인트 하나당 할지 생각해봐야함. 포인트 하나당 이력 객체를 생성해서 모아서 저장하는 방식도 있다.
         if (requestReviewAction.equals(ReviewAction.MODIFY)) {
             Point userPoint = user.getPoint();
-            int resultPointByModify = modActionExecutioner.modifyPointRelatedContent(eventOccurRequest, userPoint) +
-                    modActionExecutioner.modifyPointRelatedPhotos(eventOccurRequest, userPoint);
+            int resultPointByModify = modActionExecutioner.modifyPointRelatedContent(eventOccurRequest, userPoint) + modActionExecutioner.modifyPointRelatedPhotos(eventOccurRequest, userPoint);
             savePointRecord(user, resultPointByModify);
         }
 
@@ -72,5 +71,4 @@ public class ReviewEvent implements Event {
         PointRecord pointRecord = PointRecord.createPointRecord(resultPoint, user.getPoint().getPresentPoint(), user);
         pointRecordRepository.save(pointRecord);
     }
-
 }

@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 @SpringBootTest
 @ActiveProfiles("h2")
 class ReviewEventAddTest {
+
     @Autowired
     private ReviewEvent reviewEvent;
 

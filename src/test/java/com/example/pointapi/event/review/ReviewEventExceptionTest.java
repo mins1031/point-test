@@ -49,9 +49,6 @@ class ReviewEventExceptionTest {
     @Autowired
     private ReviewPhotoRepository reviewPhotoRepository;
 
-    @Autowired
-    private PointRecordRepository pointRecordRepository;
-
     @DisplayName("[예외] 리뷰의 userid와 파라미터로 조회한 유저의 userid가 다를 때.")
     @Test
     void 예외_요청자_리뷰어_NotEqual() {

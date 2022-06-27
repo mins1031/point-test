@@ -13,6 +13,7 @@ public class EventService {
 
     @Transactional
     public void occurEvent(EventOccurRequest eventOccurRequest) {
+        //포인트 증감을 하는 도메인은 분명히 리뷰뿐만이 아닐거라고 생각해 추상화 했습니다.
         eventTypeHandler.handleEvent(eventOccurRequest);
     }
 }
