@@ -22,7 +22,6 @@ public class AddActionExecutioner {
     private final ReviewPhotoRepository reviewPhotoRepository;
 
     public int addPoint(EventOccurRequest eventOccurRequest, Review review, Place place, User user) {
-        //리뷰 패치조인하는 메서드 queryDsl로 구현할것.
         int tempPointCount = 0;
 
         if (eventOccurRequest.checkExistContent()) {
@@ -31,7 +30,7 @@ public class AddActionExecutioner {
         }
 
         if (eventOccurRequest.checkExistPhotos()) {
-            verifyReviewPhoto(eventOccurRequest, review);
+            verifyReviewPhoto(eventOccurRequest.getAttachedPhotoIds(), review.getNum());
             user.getPoint().getReviewConditionChecker().changePhotoPointState(true);
             tempPointCount += PointScoreHolder.PLUS_COUNT_POINT;
         }
@@ -47,12 +46,11 @@ public class AddActionExecutioner {
         return tempPointCount;
     }
 
-    private void verifyReviewPhoto(EventOccurRequest eventOccurRequest, Review review) {
-        List<String> attachedPhotoIds = eventOccurRequest.getAttachedPhotoIds();
+    private void verifyReviewPhoto(List<String> attachedPhotoIds, Long reviewNum) {
         for (String attachedPhotoId : attachedPhotoIds) {
             if (attachedPhotoId != null) {
                 ReviewPhoto reviewPhoto = reviewPhotoRepository.findByUuidIdentifier(attachedPhotoId).orElseThrow(NotFoundReviewPhotoException::new);
-                reviewPhoto.verifyReviewer(review.getNum());
+                reviewPhoto.verifyReviewer(reviewNum);
             }
         }
     }

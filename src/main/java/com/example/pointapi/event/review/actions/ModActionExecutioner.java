@@ -35,14 +35,14 @@ public class ModActionExecutioner {
         if (point.getReviewConditionChecker().isPhotoPointState() && !eventOccurRequest.checkExistPhotos()) {
             point.updatePresentPoint(PointScoreHolder.MINUS_COUNT_POINT);
             point.getReviewConditionChecker().changePhotoPointState(false);
-            tempPointCount -= 1;
+            return tempPointCount -= 1;
         }
 
         //원래는 사진이 없었는데 추가됐다.
         if (!point.getReviewConditionChecker().isPhotoPointState() && eventOccurRequest.checkExistPhotos()) {
             point.updatePresentPoint(PointScoreHolder.PLUS_COUNT_POINT);
             point.getReviewConditionChecker().changePhotoPointState(true);
-            tempPointCount += 1;
+            return tempPointCount += 1;
         }
 
         return tempPointCount;

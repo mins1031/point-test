@@ -2,7 +2,6 @@ package com.example.pointapi.event;
 
 import com.example.pointapi.event.dto.EventOccurRequest;
 import com.example.pointapi.event.review.ReviewEvent;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +12,6 @@ import java.util.Map;
 @Getter
 @Component
 public class EventTypeHandler {
-    private static final ObjectMapper objectMapper = new ObjectMapper();
     private static final Map<EventType, Event> pointApplyMapper = new HashMap<>();
 
     public EventTypeHandler(ReviewEvent reviewEvent) {
