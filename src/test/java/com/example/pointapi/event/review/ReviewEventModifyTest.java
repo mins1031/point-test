@@ -3,6 +3,7 @@ package com.example.pointapi.event.review;
 import com.example.pointapi.common.PlaceHelper;
 import com.example.pointapi.common.ReviewHelper;
 import com.example.pointapi.common.UserHelper;
+import com.example.pointapi.common.pointholder.PointScoreHolder;
 import com.example.pointapi.event.EventType;
 import com.example.pointapi.event.dto.EventOccurRequest;
 import com.example.pointapi.event.review.enums.ReviewAction;
@@ -126,7 +127,7 @@ class ReviewEventModifyTest {
 
         List<PointRecord> pointRecords = pointRecordRepository.findAll();
         Assertions.assertThat(pointRecords).hasSize(1);
-        Assertions.assertThat(pointRecords.get(0).getUpdatedPoint()).isEqualTo(ReviewEvent.PLUS_COUNT_POINT);
+        Assertions.assertThat(pointRecords.get(0).getUpdatedPoint()).isEqualTo(PointScoreHolder.PLUS_COUNT_POINT);
         Assertions.assertThat(pointRecords.get(0).getCurrentPointAfterUpdate()).isEqualTo(2);
     }
 
@@ -166,7 +167,7 @@ class ReviewEventModifyTest {
 
         List<PointRecord> pointRecords = pointRecordRepository.findAll();
         Assertions.assertThat(pointRecords).hasSize(1);
-        Assertions.assertThat(pointRecords.get(0).getUpdatedPoint()).isEqualTo(ReviewEvent.MINUS_COUNT_POINT);
+        Assertions.assertThat(pointRecords.get(0).getUpdatedPoint()).isEqualTo(PointScoreHolder.MINUS_COUNT_POINT);
         Assertions.assertThat(pointRecords.get(0).getCurrentPointAfterUpdate()).isEqualTo(0);
     }
 
@@ -202,7 +203,7 @@ class ReviewEventModifyTest {
 
         List<PointRecord> pointRecords = pointRecordRepository.findAll();
         Assertions.assertThat(pointRecords).hasSize(1);
-        Assertions.assertThat(pointRecords.get(0).getUpdatedPoint()).isEqualTo(ReviewEvent.MINUS_COUNT_POINT);
+        Assertions.assertThat(pointRecords.get(0).getUpdatedPoint()).isEqualTo(PointScoreHolder.MINUS_COUNT_POINT);
         Assertions.assertThat(pointRecords.get(0).getCurrentPointAfterUpdate()).isEqualTo(0);
     }
 
@@ -239,7 +240,7 @@ class ReviewEventModifyTest {
 
         List<PointRecord> pointRecords = pointRecordRepository.findAll();
         Assertions.assertThat(pointRecords).hasSize(1);
-        Assertions.assertThat(pointRecords.get(0).getUpdatedPoint()).isEqualTo(ReviewEvent.PLUS_COUNT_POINT + ReviewEvent.PLUS_COUNT_POINT);
+        Assertions.assertThat(pointRecords.get(0).getUpdatedPoint()).isEqualTo(PointScoreHolder.PLUS_COUNT_POINT + PointScoreHolder.PLUS_COUNT_POINT);
         Assertions.assertThat(pointRecords.get(0).getCurrentPointAfterUpdate()).isEqualTo(2);
     }
 
@@ -281,7 +282,7 @@ class ReviewEventModifyTest {
 
         List<PointRecord> pointRecords = pointRecordRepository.findAll();
         Assertions.assertThat(pointRecords).hasSize(1);
-        Assertions.assertThat(pointRecords.get(0).getUpdatedPoint()).isEqualTo(ReviewEvent.MINUS_COUNT_POINT + ReviewEvent.MINUS_COUNT_POINT);
+        Assertions.assertThat(pointRecords.get(0).getUpdatedPoint()).isEqualTo(PointScoreHolder.MINUS_COUNT_POINT + PointScoreHolder.MINUS_COUNT_POINT);
         Assertions.assertThat(pointRecords.get(0).getCurrentPointAfterUpdate()).isEqualTo(0);
     }
 }
