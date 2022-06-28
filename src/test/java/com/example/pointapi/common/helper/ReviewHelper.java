@@ -1,4 +1,4 @@
-package com.example.pointapi.common;
+package com.example.pointapi.common.helper;
 
 import com.example.pointapi.place.domain.Place;
 import com.example.pointapi.review.domain.model.Review;

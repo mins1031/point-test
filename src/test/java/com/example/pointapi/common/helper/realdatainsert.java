@@ -1,4 +1,4 @@
-package com.example.pointapi.common;
+package com.example.pointapi.common.helper;
 
 import com.example.pointapi.place.domain.Place;
 import com.example.pointapi.place.repository.PlaceRepository;
@@ -8,14 +8,9 @@ import com.example.pointapi.review.reviewphoto.domain.ReviewPhoto;
 import com.example.pointapi.review.reviewphoto.repository.ReviewPhotoRepository;
 import com.example.pointapi.user.domain.User;
 import com.example.pointapi.user.repository.UserRepository;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 
 @SpringBootTest
 public class realdatainsert {

@@ -1,4 +1,4 @@
-package com.example.pointapi.common;
+package com.example.pointapi.common.helper;
 
 import com.example.pointapi.user.domain.point.Point;
 import com.example.pointapi.user.domain.User;

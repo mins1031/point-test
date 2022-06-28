@@ -1,8 +1,8 @@
 package com.example.pointapi.event.review;
 
-import com.example.pointapi.common.PlaceHelper;
-import com.example.pointapi.common.ReviewHelper;
-import com.example.pointapi.common.UserHelper;
+import com.example.pointapi.common.helper.PlaceHelper;
+import com.example.pointapi.common.helper.ReviewHelper;
+import com.example.pointapi.common.helper.UserHelper;
 import com.example.pointapi.common.pointholder.PointScoreHolder;
 import com.example.pointapi.event.EventType;
 import com.example.pointapi.event.dto.EventOccurRequest;
@@ -13,8 +13,6 @@ import com.example.pointapi.pointrecord.domain.PointRecord;
 import com.example.pointapi.pointrecord.repository.PointRecordRepository;
 import com.example.pointapi.review.domain.model.Review;
 import com.example.pointapi.review.repository.ReviewRepository;
-import com.example.pointapi.review.reviewphoto.domain.ReviewPhoto;
-import com.example.pointapi.review.reviewphoto.repository.ReviewPhotoRepository;
 import com.example.pointapi.user.domain.User;
 import com.example.pointapi.user.repository.UserRepository;
 import org.assertj.core.api.Assertions;
@@ -24,9 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @SpringBootTest
 @ActiveProfiles("h2")
