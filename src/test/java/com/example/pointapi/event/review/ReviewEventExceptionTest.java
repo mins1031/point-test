@@ -1,8 +1,8 @@
 package com.example.pointapi.event.review;
 
-import com.example.pointapi.common.PlaceHelper;
-import com.example.pointapi.common.ReviewHelper;
-import com.example.pointapi.common.UserHelper;
+import com.example.pointapi.common.helper.PlaceHelper;
+import com.example.pointapi.common.helper.ReviewHelper;
+import com.example.pointapi.common.helper.UserHelper;
 import com.example.pointapi.common.exception.ImpossibleException;
 import com.example.pointapi.common.exception.WrongRequesterException;
 import com.example.pointapi.event.EventType;
@@ -10,8 +10,6 @@ import com.example.pointapi.event.dto.EventOccurRequest;
 import com.example.pointapi.event.review.enums.ReviewAction;
 import com.example.pointapi.place.domain.Place;
 import com.example.pointapi.place.repository.PlaceRepository;
-import com.example.pointapi.pointrecord.domain.PointRecord;
-import com.example.pointapi.pointrecord.repository.PointRecordRepository;
 import com.example.pointapi.review.domain.model.Review;
 import com.example.pointapi.review.repository.ReviewRepository;
 import com.example.pointapi.review.reviewphoto.domain.ReviewPhoto;

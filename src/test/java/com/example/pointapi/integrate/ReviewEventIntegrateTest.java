@@ -1,8 +1,9 @@
 package com.example.pointapi.integrate;
 
-import com.example.pointapi.common.PlaceHelper;
-import com.example.pointapi.common.ReviewHelper;
-import com.example.pointapi.common.UserHelper;
+import com.example.pointapi.common.basetest.IntegrateBaseTest;
+import com.example.pointapi.common.helper.PlaceHelper;
+import com.example.pointapi.common.helper.ReviewHelper;
+import com.example.pointapi.common.helper.UserHelper;
 import com.example.pointapi.event.EventType;
 import com.example.pointapi.event.controller.EventControllerPath;
 import com.example.pointapi.event.dto.EventOccurRequest;
@@ -16,22 +17,15 @@ import com.example.pointapi.review.repository.ReviewRepository;
 import com.example.pointapi.review.reviewphoto.domain.ReviewPhoto;
 import com.example.pointapi.review.reviewphoto.repository.ReviewPhotoRepository;
 import com.example.pointapi.user.domain.User;
-import com.example.pointapi.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Arrays;
 import java.util.List;
@@ -41,37 +35,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("h2")
-@AutoConfigureMockMvc
-public class ReviewEventIntegrateTest {
-
-    @Autowired
-    private WebApplicationContext webApplicationContext;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PlaceRepository placeRepository;
-
-    @Autowired
-    private ReviewRepository reviewRepository;
-
-    @Autowired
-    private ReviewPhotoRepository reviewPhotoRepository;
-
-    @Autowired
-    private PointRecordRepository pointRecordRepository;
-
-    protected MockMvc mockMvc;
+public class ReviewEventIntegrateTest extends IntegrateBaseTest {
 
     protected ObjectMapper objectMapper = new ObjectMapper();
-
-    @BeforeEach
-    void setUp() {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-    }
 
     @DisplayName("리뷰 포인트 추가 통합테스트")
     @Test
