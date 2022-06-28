@@ -1,4 +1,4 @@
-package com.example.pointapi.event;
+package com.example.pointapi.event.domain;
 
 import com.example.pointapi.event.exception.WrongEventTypeException;
 import lombok.Getter;

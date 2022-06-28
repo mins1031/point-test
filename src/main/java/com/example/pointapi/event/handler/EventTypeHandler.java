@@ -1,5 +1,7 @@
-package com.example.pointapi.event;
+package com.example.pointapi.event.handler;
 
+import com.example.pointapi.event.domain.Event;
+import com.example.pointapi.event.domain.EventType;
 import com.example.pointapi.event.dto.EventOccurRequest;
 import com.example.pointapi.event.review.ReviewEvent;
 import lombok.Getter;
