@@ -1,0 +1,11 @@
+GET http://localhost:8080/users/68fec48a-0c51-4617-bfd6-c051aa9238eb/point
+Content-Type: application/json
+
+#res
+#{
+#  "presentPoint": 3
+#}
+#
+#Response code: 200; Time: 142ms; Content length: 18 bytes
+
+
