@@ -37,18 +37,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class ReviewEventIntegrateTest extends IntegrateBaseTest {
 
-    @Autowired
-    private PlaceRepository placeRepository;
-
-    @Autowired
-    private ReviewRepository reviewRepository;
-
-    @Autowired
-    private ReviewPhotoRepository reviewPhotoRepository;
-
-    @Autowired
-    private PointRecordRepository pointRecordRepository;
-
     protected ObjectMapper objectMapper = new ObjectMapper();
 
     @DisplayName("리뷰 포인트 추가 통합테스트")

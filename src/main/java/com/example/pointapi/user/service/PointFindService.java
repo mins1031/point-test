@@ -7,6 +7,7 @@ import com.example.pointapi.pointrecord.repository.WrongPointRecordRepository;
 import com.example.pointapi.user.domain.User;
 import com.example.pointapi.user.dto.PointFindResponse;
 import com.example.pointapi.user.exception.NotFoundUserException;
+import com.example.pointapi.user.exception.NotMatchPresentPoint;
 import com.example.pointapi.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,7 @@ public class PointFindService {
 
         if (presentPointInUser != presetPointInRecord) {
             wrongPointRecordRepository.save(WrongPointRecord.createWrongPointRecord(presentPointInUser, presetPointInRecord));
+            throw new NotMatchPresentPoint();
         }
 
         return new PointFindResponse(presetPointInRecord);

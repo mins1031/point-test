@@ -1,6 +1,11 @@
 package com.example.pointapi.common.basetest;
 
+import com.example.pointapi.place.repository.PlaceRepository;
+import com.example.pointapi.pointrecord.repository.PointRecordRepository;
+import com.example.pointapi.review.repository.ReviewRepository;
+import com.example.pointapi.review.reviewphoto.repository.ReviewPhotoRepository;
 import com.example.pointapi.user.repository.UserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +23,18 @@ public class IntegrateBaseTest {
 
     @Autowired
     protected UserRepository userRepository;
+
+    @Autowired
+    protected PlaceRepository placeRepository;
+
+    @Autowired
+    protected ReviewRepository reviewRepository;
+
+    @Autowired
+    protected ReviewPhotoRepository reviewPhotoRepository;
+
+    @Autowired
+    protected PointRecordRepository pointRecordRepository;
 
     protected MockMvc mockMvc;
 
