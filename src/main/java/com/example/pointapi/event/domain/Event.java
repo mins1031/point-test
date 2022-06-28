@@ -1,4 +1,4 @@
-package com.example.pointapi.event;
+package com.example.pointapi.event.domain;
 
 import com.example.pointapi.event.dto.EventOccurRequest;
 
