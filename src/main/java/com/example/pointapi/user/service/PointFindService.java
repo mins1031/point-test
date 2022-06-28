@@ -1,5 +1,7 @@
 package com.example.pointapi.user.service;
 
+import com.example.pointapi.common.exception.WrongRequesterException;
+import com.example.pointapi.common.validator.ParameterValidator;
 import com.example.pointapi.pointrecord.domain.PointRecord;
 import com.example.pointapi.pointrecord.domain.WrongPointRecord;
 import com.example.pointapi.pointrecord.repository.PointRecordRepository;
@@ -24,6 +26,7 @@ public class PointFindService {
 
     @Transactional(readOnly = true)
     public PointFindResponse findUserPoint(String userId) {
+        ParameterValidator.checkUuidParameter(userId);
         User user = userRepository.findByUuidIdentifier(userId).orElseThrow(NotFoundUserException::new);
         List<PointRecord> pointRecords = pointRecordRepository.findByUserNum(user.getNum());
         int presetPointInRecord = pointRecords.stream()

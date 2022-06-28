@@ -1,6 +1,7 @@
 package com.example.pointapi.event.review;
 
 import com.example.pointapi.common.exception.WrongRequesterException;
+import com.example.pointapi.common.validator.ParameterValidator;
 import com.example.pointapi.event.Event;
 import com.example.pointapi.event.dto.EventOccurRequest;
 import com.example.pointapi.event.review.actions.AddActionExecutioner;
@@ -42,7 +43,7 @@ public class ReviewEvent implements Event {
         Review review = reviewRepository.findByUuidIdentifier(eventOccurRequest.getReviewId()).orElseThrow(NotFoundReviewException::new);
         User user = userRepository.findByUuidIdentifier(eventOccurRequest.getUserId()).orElseThrow(NotFoundUserException::new);
         Place place = placeRepository.findByUuidIdentifier(eventOccurRequest.getPlaceId()).orElseThrow(NotFoundPlaceException::new);
-        checkReviewerAndRequester(review, user);
+        ParameterValidator.checkReviewerAndRequester(review, user);
 
         if (requestReviewAction.equals(ReviewAction.ADD)) {
             int addResultPoint = addActionExecutioner.addPoint(eventOccurRequest, review, place, user);
@@ -58,12 +59,6 @@ public class ReviewEvent implements Event {
         if (requestReviewAction.equals(ReviewAction.DELETE)) {
             Point point = user.getPoint();
             savePointRecord(user, deleteActionExecutioner.deletePoint(point));
-        }
-    }
-
-    private void checkReviewerAndRequester(Review review, User user) {
-        if (!review.verifyReviewerAndRequester(user.getNum())) {
-            throw new WrongRequesterException("요청된 리뷰의 정보와 유저의 정보가 다릅니다. 잘못된 요청입니다.");
         }
     }
 
