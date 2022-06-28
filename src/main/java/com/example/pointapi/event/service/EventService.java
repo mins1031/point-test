@@ -1,6 +1,6 @@
 package com.example.pointapi.event.service;
 
-import com.example.pointapi.event.EventTypeHandler;
+import com.example.pointapi.event.handler.EventTypeHandler;
 import com.example.pointapi.event.dto.EventOccurRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

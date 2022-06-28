@@ -4,7 +4,7 @@ import com.example.pointapi.common.helper.PlaceHelper;
 import com.example.pointapi.common.helper.ReviewHelper;
 import com.example.pointapi.common.helper.UserHelper;
 import com.example.pointapi.common.pointholder.PointScoreHolder;
-import com.example.pointapi.event.EventType;
+import com.example.pointapi.event.domain.EventType;
 import com.example.pointapi.event.dto.EventOccurRequest;
 import com.example.pointapi.event.review.enums.ReviewAction;
 import com.example.pointapi.place.domain.Place;

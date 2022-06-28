@@ -1,8 +1,7 @@
 package com.example.pointapi.event.review;
 
-import com.example.pointapi.common.exception.WrongRequesterException;
 import com.example.pointapi.common.validator.ParameterValidator;
-import com.example.pointapi.event.Event;
+import com.example.pointapi.event.domain.Event;
 import com.example.pointapi.event.dto.EventOccurRequest;
 import com.example.pointapi.event.review.actions.AddActionExecutioner;
 import com.example.pointapi.event.review.actions.DeleteActionExecutioner;
