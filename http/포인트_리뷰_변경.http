@@ -1,0 +1,22 @@
+POST http://localhost:8080/events
+Content-Type: application/json
+
+# user uuid : 68fec48a-0c51-4617-bfd6-c051aa9238eb
+# place uuid : 8258bc57-b8d6-49a0-b87d-9aca06771611
+# review uuid : 31760b39-b671-49c4-9c3a-440e902152a6
+# photo1 uuid : d703af54-6ecb-4551-ae41-5e857e0f9640
+# photo2 uuid : d2f4638d-ef4f-4c13-84dc-2b561a5b9e8b
+
+
+{
+  "type": "REVIEW",
+  "action": "MOD",
+  "reviewId": "31760b39-b671-49c4-9c3a-440e902152a6",
+  "content": null,
+  "attachedPhotoIds": [
+    "d703af54-6ecb-4551-ae41-5e857e0f9640",
+    "d2f4638d-ef4f-4c13-84dc-2b561a5b9e8b"
+  ],
+  "userId": "68fec48a-0c51-4617-bfd6-c051aa9238eb",
+  "placeId": "8258bc57-b8d6-49a0-b87d-9aca06771611"
+}
